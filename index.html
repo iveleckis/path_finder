@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <header>
+            <div class="options">
+                <!-- <div class="option">
+                    <label for="boardSize">Board size</label>
+                    <select
+                        name="boardSize"
+                        id="boardSize"
+                        onchange="generateBoard()"
+                    >
+                        <option value="200x100">200x100</option>
+                        <option value="400x200">400x200</option>
+                        <option value="800x400">800x400</option>
+                    </select>
+                </div> -->
+                <div class="option" onclick="changeNode('start')">Start</div>
+                <div class="option" onclick="changeNode('stop')">Stop</div>
+                <div class="option" onclick="changeNode('end')">End</div>
+                <div class="option" onclick="startSearch()">Find</div>
+            </div>
+        </header>
+        <div class="main">
+            <div class="board_title"></div>
+            <div class="board"></div>
+        </div>
+        <script src="app.js"></script>
+    </body>
+</html>
