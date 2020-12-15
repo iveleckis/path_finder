@@ -7,7 +7,7 @@ const createInitialBoard = (rows, cols) => {
     for (let y = 0; y < rows; y++) {
         const row = [];
         for (let x = 0; x < cols; x++) {
-            row.push({ x, y });
+            row.push({ x, y, value: 0 });
         }
         board.push(row);
     }
@@ -27,32 +27,10 @@ const generateBoardInDom = (array) => {
             col.classList.add('col');
             col.addEventListener('click', () => {
                 if (node_selected === 'start') {
-                    for (let a in board_dom.children) {
-                        for (let z in board_dom.children[a].children) {
-                            if (
-                                board_dom.children[a].children[z].className &&
-                                board_dom.children[a].children[z].className ===
-                                    'col green'
-                            ) {
-                                board_dom.children[a].children[z].className =
-                                    'col';
-                            }
-                        }
-                    }
+                    arrayCopy[y][x].value = 'start';
                     col.classList.add('green');
                 } else if (node_selected === 'end') {
-                    for (let a in board_dom.children) {
-                        for (let z in board_dom.children[a].children) {
-                            if (
-                                board_dom.children[a].children[z].className &&
-                                board_dom.children[a].children[z].className ===
-                                    'col red'
-                            ) {
-                                board_dom.children[a].children[z].className =
-                                    'col';
-                            }
-                        }
-                    }
+                    arrayCopy[y][x].value = 'end';
                     col.classList.add('red');
                 }
             });
@@ -62,86 +40,58 @@ const generateBoardInDom = (array) => {
     }
 };
 
+const updateBoard = () => {};
+
 const changeNode = (node) => {
     node_selected = node;
 };
 
 const search = () => {
-    let start = '';
-    let end = '';
-
-    for (let y in board_dom.children) {
-        for (let x in board_dom.children[y].children) {
-            if (board_dom.children[y].children[x].className === 'col green') {
-                start = { x: Number(x), y: Number(y) };
-            } else if (
-                board_dom.children[y].children[x].className === 'col red'
-            ) {
-                end = { x: Number(x), y: Number(y) };
-            }
-        }
-    }
-
     for (let y in arrayCopy) {
+        let breakLoop = false;
         for (let x in arrayCopy[y]) {
+            // kazkodel error meta apacioj nes neranda sito nors su ifu saugausi
+            // kazkodel su x asim pykstasi
             if (
-                arrayCopy[y][x].x === start.x &&
-                arrayCopy[y][x].y === start.y
+                arrayCopy[y][x].value === 1 ||
+                arrayCopy[y][x].value === 'start'
             ) {
-                console.log('start');
-                console.log(start);
-            } else if (
-                arrayCopy[y][x].x === end.x &&
-                arrayCopy[y][x].y === end.y
-            ) {
-                console.log('end');
-                console.log(end);
+                if (Number(y) >= 1) {
+                    arrayCopy[Number(y) - 1][x].value =
+                        arrayCopy[Number(y) - 1][x].value + 1;
+                }
+                if (Number(y) <= 3) {
+                    arrayCopy[Number(y) + 1][x].value =
+                        arrayCopy[Number(y) + 1][x].value + 1;
+                }
+                if (Number(x) >= 1) {
+                    arrayCopy[y][Number(x) + 1].value =
+                        arrayCopy[y][Number(x) + 1].value + 1;
+                }
+                if (Number(x) <= 3) {
+                    arrayCopy[y][Number(x) - 1].value =
+                        arrayCopy[y][Number(x) - 1].value + 1;
+                }
+                if (arrayCopy[y][x].value === 'start') {
+                    arrayCopy[y][x].value = 2;
+                } else {
+                    arrayCopy[y][x].value = arrayCopy[y][x].value + 1;
+                }
+                breakLoop = true;
+                if (breakLoop) {
+                    break;
+                }
             }
         }
+        if (breakLoop) {
+            break;
+        }
     }
-
-    //const searchInterval = setInterval(() => {}, 1000);
+    console.log(arrayCopy);
 };
 
 const startSearch = () => {
-    // return somethin
-    // then clear interval
-    // when end is found
-    /* setInterval(() => {
-    search();
-  }, 200); */
     search();
 };
 
 createInitialBoard(5, 5);
-
-/* for (let x in board_dom.children) {
-    let breakLoop = false;
-    for (let z in board_dom.children[x].children) {
-        if (board_dom.children[x].children[z].innerHTML === 'S') {
-            board_dom.children[Number(x) + 1].children[Number(z)].innerHTML =
-                'S';
-            board_dom.children[Number(x) - 1].children[Number(z)].innerHTML =
-                'S';
-            board_dom.children[Number(x)].children[Number(z) + 1].innerHTML =
-                'S';
-            board_dom.children[Number(x)].children[Number(z) - 1].innerHTML =
-                'S';
-            board_dom.children[Number(x) + 1].children[Number(z)].classList.add(
-                'white'
-            );
-            board_dom.children[Number(x) - 1].children[Number(z)].classList.add(
-                'white'
-            );
-            board_dom.children[Number(x)].children[Number(z) + 1].classList.add(
-                'white'
-            );
-            board_dom.children[Number(x)].children[Number(z) - 1].classList.add(
-                'white'
-            );
-            breakLoop = true;
-            break;
-        }
-    }
-    if (breakLoop) break;
-} */
