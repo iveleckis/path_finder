@@ -7,7 +7,11 @@ const createInitialBoard = (rows, cols) => {
     for (let y = 0; y < rows; y++) {
         const row = [];
         for (let x = 0; x < cols; x++) {
-            row.push({ x, y, value: 0 });
+            row.push({
+                xCoord: x,
+                yCoord: y,
+                value: 0,
+            });
         }
         board.push(row);
     }
@@ -50,30 +54,55 @@ const search = () => {
     for (let y in arrayCopy) {
         let breakLoop = false;
         for (let x in arrayCopy[y]) {
-            // kazkodel error meta apacioj nes neranda sito nors su ifu saugausi
-            // kazkodel su x asim pykstasi
             if (
                 arrayCopy[y][x].value === 1 ||
                 arrayCopy[y][x].value === 'start'
             ) {
                 if (Number(y) >= 1) {
-                    arrayCopy[Number(y) - 1][x].value =
-                        arrayCopy[Number(y) - 1][x].value + 1;
+                    if (
+                        arrayCopy[Number(y) - 1][x].value === 0 ||
+                        arrayCopy[Number(y) - 1][x].value === 1
+                    ) {
+                        arrayCopy[Number(y) - 1][x].value =
+                            arrayCopy[Number(y) - 1][x].value + 1;
+                        board_dom.children[Number(y) - 1].children[
+                            x
+                        ].classList.add('green');
+                        board_dom.children[Number(y) - 1].children[
+                            x
+                        ].innerHTML = arrayCopy[Number(y) - 1][x].value;
+                    }
                 }
-                if (Number(y) <= 3) {
-                    arrayCopy[Number(y) + 1][x].value =
-                        arrayCopy[Number(y) + 1][x].value + 1;
+                if (Number(y) <= 9) {
+                    if (
+                        arrayCopy[Number(y) + 1][x].value === 0 ||
+                        arrayCopy[Number(y) + 1][x].value === 1
+                    ) {
+                        arrayCopy[Number(y) + 1][x].value =
+                            arrayCopy[Number(y) + 1][x].value + 1;
+                        board_dom.children[Number(y) + 1].children[
+                            x
+                        ].innerHTML = arrayCopy[Number(y) + 1][x].value;
+                        board_dom.children[Number(y) + 1].children[
+                            x
+                        ].classList.add('green');
+                    }
                 }
-                if (Number(x) >= 1) {
+                /* if (Number(x) >= 1) {
                     arrayCopy[y][Number(x) + 1].value =
                         arrayCopy[y][Number(x) + 1].value + 1;
+                    board_dom.children[y].children[Number(x) - 1].innerHTML =
+                        arrayCopy[y][Number(x) + 1].value;
                 }
-                if (Number(x) <= 3) {
+                if (Number(x) <= 9) {
                     arrayCopy[y][Number(x) - 1].value =
                         arrayCopy[y][Number(x) - 1].value + 1;
-                }
+                    board_dom.children[y].children[Number(x) + 1].innerHTML =
+                        arrayCopy[y][Number(x) - 1].value;
+                } */
                 if (arrayCopy[y][x].value === 'start') {
                     arrayCopy[y][x].value = 2;
+                    board_dom.children[y].children[x].innerHTML = 2;
                 } else {
                     arrayCopy[y][x].value = arrayCopy[y][x].value + 1;
                 }
@@ -87,11 +116,11 @@ const search = () => {
             break;
         }
     }
-    console.log(arrayCopy);
+    //console.log(arrayCopy);
 };
 
 const startSearch = () => {
     search();
 };
 
-createInitialBoard(5, 5);
+createInitialBoard(10, 10);
