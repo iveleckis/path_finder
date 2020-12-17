@@ -1,6 +1,8 @@
 const board_dom = document.querySelector('.board');
 let node_selected = 'start';
 let arrayCopy = [];
+let xLength = 25;
+let yLength = 25;
 
 const createInitialBoard = (rows, cols) => {
     const board = [];
@@ -31,11 +33,14 @@ const generateBoardInDom = (array) => {
             col.classList.add('col');
             col.addEventListener('click', () => {
                 if (node_selected === 'start') {
-                    arrayCopy[y][x].value = 'start';
+                    arrayCopy[y][x].value = 1;
                     col.classList.add('green');
                 } else if (node_selected === 'end') {
                     arrayCopy[y][x].value = 'end';
                     col.classList.add('red');
+                } else if (node_selected === 'wall') {
+                    arrayCopy[y][x].value = 'wall';
+                    col.classList.add('black');
                 }
             });
             row.appendChild(col);
@@ -44,83 +49,67 @@ const generateBoardInDom = (array) => {
     }
 };
 
-const updateBoard = () => {};
-
 const changeNode = (node) => {
     node_selected = node;
 };
 
-const search = () => {
-    for (let y in arrayCopy) {
-        let breakLoop = false;
-        for (let x in arrayCopy[y]) {
-            if (
-                arrayCopy[y][x].value === 1 ||
-                arrayCopy[y][x].value === 'start'
-            ) {
-                if (Number(y) >= 1) {
-                    if (
-                        arrayCopy[Number(y) - 1][x].value === 0 ||
-                        arrayCopy[Number(y) - 1][x].value === 1
-                    ) {
-                        arrayCopy[Number(y) - 1][x].value =
-                            arrayCopy[Number(y) - 1][x].value + 1;
-                        board_dom.children[Number(y) - 1].children[
-                            x
-                        ].classList.add('green');
-                        board_dom.children[Number(y) - 1].children[
-                            x
-                        ].innerHTML = arrayCopy[Number(y) - 1][x].value;
+const searchForOne = () => {
+    console.log('hello');
+
+    let count = 0;
+    for (let y = 0; y < arrayCopy.length; y++) {
+        for (let x = 0; x < arrayCopy.length; x++) {
+            if (y > 0 && y < yLength - 1 && x > 0 && x < xLength - 1) {
+                if (arrayCopy[y][x].value === 1) {
+                    if (arrayCopy[y + 1][x].value === 0) {
+                        arrayCopy[y + 1][x].value = 'new';
                     }
-                }
-                if (Number(y) <= 9) {
-                    if (
-                        arrayCopy[Number(y) + 1][x].value === 0 ||
-                        arrayCopy[Number(y) + 1][x].value === 1
-                    ) {
-                        arrayCopy[Number(y) + 1][x].value =
-                            arrayCopy[Number(y) + 1][x].value + 1;
-                        board_dom.children[Number(y) + 1].children[
-                            x
-                        ].innerHTML = arrayCopy[Number(y) + 1][x].value;
-                        board_dom.children[Number(y) + 1].children[
-                            x
-                        ].classList.add('green');
+                    if (arrayCopy[y - 1][x].value === 0) {
+                        arrayCopy[y - 1][x].value = 'new';
                     }
-                }
-                /* if (Number(x) >= 1) {
-                    arrayCopy[y][Number(x) + 1].value =
-                        arrayCopy[y][Number(x) + 1].value + 1;
-                    board_dom.children[y].children[Number(x) - 1].innerHTML =
-                        arrayCopy[y][Number(x) + 1].value;
-                }
-                if (Number(x) <= 9) {
-                    arrayCopy[y][Number(x) - 1].value =
-                        arrayCopy[y][Number(x) - 1].value + 1;
-                    board_dom.children[y].children[Number(x) + 1].innerHTML =
-                        arrayCopy[y][Number(x) - 1].value;
-                } */
-                if (arrayCopy[y][x].value === 'start') {
+                    if (arrayCopy[y][x - 1].value === 0) {
+                        arrayCopy[y][x - 1].value = 'new';
+                    }
+                    if (arrayCopy[y][x + 1].value === 0) {
+                        arrayCopy[y][x + 1].value = 'new';
+                    }
+
+                    //board_dom.children[y].children[x].innerHTML = 2;
+                    count++;
+                    // JEI COUNT === 0 tada reik kazkaip uzpildyt kampus
                     arrayCopy[y][x].value = 2;
-                    board_dom.children[y].children[x].innerHTML = 2;
-                } else {
-                    arrayCopy[y][x].value = arrayCopy[y][x].value + 1;
-                }
-                breakLoop = true;
-                if (breakLoop) {
-                    break;
                 }
             }
         }
-        if (breakLoop) {
-            break;
+    }
+    console.log(count);
+    if (count === 0) {
+        return true;
+    } else {
+        findNew();
+    }
+};
+
+const findNew = () => {
+    for (let y = 0; y < arrayCopy.length; y++) {
+        for (let x = 0; x < arrayCopy.length; x++) {
+            if (arrayCopy[y][x].value === 'new') {
+                arrayCopy[y][x].value = 1;
+                //board_dom.children[y].children[x].innerHTML = 1;
+                board_dom.children[y].children[x].classList.add('green');
+            }
         }
     }
-    //console.log(arrayCopy);
 };
 
 const startSearch = () => {
-    search();
+    let stop;
+    const interval = setInterval(() => {
+        stop = searchForOne();
+        if (stop) {
+            clearInterval(interval);
+        }
+    }, 100);
 };
 
-createInitialBoard(10, 10);
+createInitialBoard(xLength, yLength);
