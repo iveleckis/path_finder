@@ -1,40 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <header>
-      <div class="options">
-        <!-- <div class="option">
-                    <label for="boardSize">Board size</label>
-                    <select
-                        name="boardSize"
-                        id="boardSize"
-                        onchange="generateBoard()"
-                    >
-                        <option value="200x100">200x100</option>
-                        <option value="400x200">400x200</option>
-                        <option value="800x400">800x400</option>
-                    </select>
-                </div> -->
-        <div class="option" onclick="changeNode('start')">start</div>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <header>
+            <div class="options">
+                <div class="option" onclick="changeBtn('start')">start</div>
 
-        <!-- DRAG EVENT LISTENER -->
-        <div class="option" onclick="changeNode('wall')">wall</div>
-        <div class="option" onclick="changeNode('end')">end</div>
-        <div class="option" onclick="random_dots()">dots</div>
-        <div class="option" onclick="startSearch()">find</div>
-        <div class="option" onclick="">REFRESH</div>
-      </div>
-    </header>
-    <div class="main">
-      <div class="board_title"></div>
-      <div class="board"></div>
-    </div>
-    <script src="app.js"></script>
-  </body>
+                <!-- DRAG EVENT LISTENER -->
+                <div class="option" onclick="changeBtn('wall')">wall</div>
+                <div class="option" onclick="changeBtn('end')">end</div>
+                <div class="option" onclick="random_dots()">dots</div>
+                <div class="option" onclick="startSearch()">find</div>
+                <div class="option" onclick="">REFRESH</div>
+            </div>
+        </header>
+        <div class="main">
+            <div class="board"></div>
+        </div>
+        <script src="app.js"></script>
+    </body>
 </html>
