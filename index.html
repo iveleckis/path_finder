@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Document</title>
-        <link rel="stylesheet" href="style.css" />
-    </head>
-    <body>
-        <header>
-            <div class="options">
-                <!-- <div class="option">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="options">
+        <!-- <div class="option">
                     <label for="boardSize">Board size</label>
                     <select
                         name="boardSize"
@@ -21,19 +21,19 @@
                         <option value="800x400">800x400</option>
                     </select>
                 </div> -->
-                <div class="option" onclick="changeNode('start')">Start</div>
+        <div class="option" onclick="changeNode('start')">Start</div>
 
-                <!-- DRAG EVENT LISTENER -->
-                <div class="option" onclick="changeNode('wall')">Wall</div>
-                <div class="option" onclick="changeNode('end')">End</div>
-                <div class="option" onclick="startSearch()">Find</div>
-                <div class="option" onclick="drawPath()">finddddddd</div>
-            </div>
-        </header>
-        <div class="main">
-            <div class="board_title"></div>
-            <div class="board"></div>
-        </div>
-        <script src="app.js"></script>
-    </body>
+        <!-- DRAG EVENT LISTENER -->
+        <div class="option" onclick="changeNode('wall')">Wall</div>
+        <div class="option" onclick="changeNode('end')">End</div>
+        <div class="option" onclick="random_dots()">DOTS</div>
+        <div class="option" onclick="startSearch()">Find</div>
+      </div>
+    </header>
+    <div class="main">
+      <div class="board_title"></div>
+      <div class="board"></div>
+    </div>
+    <script src="app.js"></script>
+  </body>
 </html>

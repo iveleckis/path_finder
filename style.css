@@ -1,68 +1,70 @@
 body,
 html {
-    height: 100%;
-    width: 100%;
-    background: rgb(48, 48, 48);
+  height: 100%;
+  width: 100%;
+  background: rgb(48, 48, 48);
 }
 
 * {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
 }
 
 header {
-    background: rgb(63, 151, 173);
+  background: rgb(63, 151, 173);
 }
 
 .options {
-    display: flex;
+  display: flex;
 }
 
 .option {
-    padding: 1rem;
+  padding: 1rem;
 }
 
 .option:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .row {
-    display: flex;
+  display: flex;
 }
 
 .col {
-    height: 2.5rem;
-    width: 2.5rem;
-    font-size: 1rem;
-    background: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: black;
-    transition: 0.1s;
+  height: 0.2rem;
+  width: 0.2rem;
+  background: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  transition: 0.1s;
 }
 
 .col:hover {
-    background: rgba(0, 0, 255, 0.2);
-    cursor: pointer;
+  background: rgba(0, 0, 255, 0.2);
+  cursor: pointer;
 }
 
 .green {
-    background: rgb(0, 255, 0);
+  background: rgb(0, 255, 0);
 }
 
 .yellow {
-    background: yellow;
+  background: yellow;
 }
 
 .red {
-    background: rgb(255, 0, 0);
+  background: rgb(255, 0, 0);
 }
 
 .black {
-    background: black;
+  background: black;
 }
 
 .orange {
-    background: orange;
+  background: orange;
+}
+.blue {
+  background: rgb(0, 183, 255);
 }
