@@ -1,0 +1,10 @@
+TODO:
+
+longer x axis
+
+drag and drop start / end points
+
+only one start / end point should exist
+
+drawable walls
+

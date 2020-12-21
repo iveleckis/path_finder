@@ -1,8 +1,8 @@
 const board_dom = document.querySelector(".board");
 let node_selected = "start";
 let arrayCopy = [];
-let xLength = 200;
-let yLength = 200;
+let xLength = 40;
+let yLength = 40;
 
 const createInitialBoard = (rows, cols) => {
   const board = [];
@@ -62,10 +62,22 @@ const generateBoardInDom = (array) => {
     }
     board_dom.appendChild(row);
   }
+  changeNode(node_selected);
 };
 
 const changeNode = (node) => {
   node_selected = node;
+  const options = document.querySelector(".options").children;
+
+  for (let i in options) {
+    if (options[i].innerHTML === node_selected) {
+      options[i].classList.add("active");
+    } else {
+      if (options[i].className === "option active") {
+        options[i].classList.remove("active");
+      }
+    }
+  }
 };
 
 const searchForOne = () => {
@@ -168,11 +180,11 @@ const findShortestPath = () => {
   incrementAll(true);
 
   /* const interval = setInterval(() => {
-    const result = drawPath();
-    if (result) {
-      clearInterval(interval);
-    }
-  }, 100); */
+      const result = drawPath();
+      if (result) {
+        clearInterval(interval);
+      }
+    }, 100); */
   let i = 0;
   while (i < 1) {
     const result = drawPath();
@@ -261,4 +273,4 @@ const drawPath = () => {
   }
 };
 
-createInitialBoard(xLength, yLength);
+createInitialBoard(yLength, xLength);
