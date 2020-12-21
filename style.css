@@ -31,14 +31,15 @@ header {
 }
 
 .col {
-    height: 1rem;
-    width: 1rem;
+    height: 2.5rem;
+    width: 2.5rem;
+    font-size: 1rem;
     background: white;
     display: flex;
     justify-content: center;
     align-items: center;
     color: black;
-    transition: 0.5s;
+    transition: 0.1s;
 }
 
 .col:hover {
@@ -60,4 +61,8 @@ header {
 
 .black {
     background: black;
+}
+
+.orange {
+    background: orange;
 }
