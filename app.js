@@ -1,8 +1,10 @@
 const board_dom = document.querySelector('.board');
 let selected_btn = 'start';
 let arrayCopy = [];
-let xLength = 80;
-let yLength = 40;
+let xLength = 40;
+let yLength = 20;
+let done = false;
+let path = [];
 
 const createInitialBoard = (rows, cols) => {
     const board = [];
@@ -22,16 +24,37 @@ const createInitialBoard = (rows, cols) => {
 };
 
 const random_dots = () => {
+    if (!done) {
+        for (let y in arrayCopy) {
+            for (let x in arrayCopy[y]) {
+                if (arrayCopy[y][x].value === 'wall') {
+                    arrayCopy[y][x].value = 0;
+                    board_dom.children[y].children[x].classList.remove('black');
+                }
+            }
+        }
+        for (let y in arrayCopy) {
+            for (let x in arrayCopy[y]) {
+                const rand = Math.floor(Math.random() * 7);
+                if (
+                    arrayCopy[y][x].value !== 'end' &&
+                    arrayCopy[y][x].value !== 'start' &&
+                    rand < 2
+                ) {
+                    board_dom.children[y].children[x].classList.add('black');
+                    arrayCopy[y][x].value = 'wall';
+                }
+            }
+        }
+    }
+};
+
+const remove_buttons = (selected) => {
     for (let y in arrayCopy) {
         for (let x in arrayCopy[y]) {
-            const rand = Math.floor(Math.random() * 3);
-            if (
-                arrayCopy[y][x].value !== 'end' &&
-                arrayCopy[y][x].value !== 'start' &&
-                rand === 1
-            ) {
-                board_dom.children[y].children[x].classList.add('black');
-                arrayCopy[y][x].value = 'wall';
+            if (selected === arrayCopy[y][x].value) {
+                board_dom.children[y].children[x].className = 'cel';
+                arrayCopy[y][x].value = 0;
             }
         }
     }
@@ -39,23 +62,29 @@ const random_dots = () => {
 
 const generateBoardInDom = (array) => {
     arrayCopy = [...array];
-    console.log(arrayCopy);
     for (let y in array) {
         const row = document.createElement('div');
         row.classList.add('row');
         for (let x in array[y]) {
             const cel = document.createElement('div');
+            const innerCel = document.createElement('div');
+            innerCel.classList.add('innerCel');
+            cel.appendChild(innerCel);
             cel.classList.add('cel');
             cel.addEventListener('click', () => {
-                if (selected_btn === 'start') {
-                    arrayCopy[y][x].value = 1;
-                    cel.classList.add('blue');
-                } else if (selected_btn === 'end') {
-                    arrayCopy[y][x].value = 'end';
-                    cel.classList.add('red');
-                } else if (selected_btn === 'wall') {
-                    arrayCopy[y][x].value = 'wall';
-                    cel.classList.add('black');
+                if (!done) {
+                    if (selected_btn === 'start') {
+                        remove_buttons(1);
+                        arrayCopy[y][x].value = 1;
+                        cel.classList.add('blue');
+                    } else if (selected_btn === 'end') {
+                        remove_buttons('end');
+                        arrayCopy[y][x].value = 'end';
+                        cel.classList.add('red');
+                    } else if (selected_btn === 'wall') {
+                        arrayCopy[y][x].value = 'wall';
+                        cel.classList.add('black');
+                    }
                 }
             });
             row.appendChild(cel);
@@ -68,7 +97,6 @@ const generateBoardInDom = (array) => {
 const changeBtn = (node) => {
     selected_btn = node;
     const options = document.querySelector('.options').children;
-
     for (let i in options) {
         if (options[i].innerHTML === selected_btn) {
             options[i].classList.add('active');
@@ -142,14 +170,16 @@ const findNew = () => {
 };
 
 const startSearch = () => {
-    let stop;
-    const interval = setInterval(() => {
-        stop = searchForOne();
-        if (stop) {
-            clearInterval(interval);
-            findShortestPath();
-        }
-    }, 50);
+    if (!done) {
+        let stop;
+        const interval = setInterval(() => {
+            stop = searchForOne();
+            if (stop) {
+                clearInterval(interval);
+                findShortestPath();
+            }
+        }, 50);
+    }
 };
 
 const incrementAll = (onlyOnes) => {
@@ -168,8 +198,6 @@ const incrementAll = (onlyOnes) => {
         }
     }
 };
-
-const path = [];
 
 const findShortestPath = () => {
     const max = [];
@@ -200,6 +228,8 @@ const findShortestPath = () => {
                 }
             }
             i = 1;
+            done = true;
+            path = [];
         }
     }
 };
@@ -207,6 +237,9 @@ const findShortestPath = () => {
 const drawPath = () => {
     let whileCount = 0;
     while (whileCount < 1) {
+        console.log('cia uzloopina jei neranda');
+        console.log('digint kaip isprest');
+        console.log(path);
         for (let y = 0; y < arrayCopy.length; y++) {
             let breakLoop;
             for (let x = 0; x < arrayCopy[y].length; x++) {
@@ -222,7 +255,6 @@ const drawPath = () => {
                         );
                         path.push(arrayCopy[y - 1][x]);
                         breakLoop = true;
-
                         break;
                     } else if (
                         arrayCopy[y][x + 1] &&
@@ -235,7 +267,6 @@ const drawPath = () => {
                         );
                         path.push(arrayCopy[y][x + 1]);
                         breakLoop = true;
-
                         break;
                     } else if (
                         arrayCopy[y + 1] &&
@@ -248,7 +279,6 @@ const drawPath = () => {
                         );
                         path.push(arrayCopy[y + 1][x]);
                         breakLoop = true;
-
                         break;
                     } else if (
                         arrayCopy[y][x - 1] &&
@@ -261,7 +291,6 @@ const drawPath = () => {
                         );
                         path.push(arrayCopy[y][x - 1]);
                         breakLoop = true;
-
                         break;
                     } else {
                         if (
@@ -302,6 +331,16 @@ const drawPath = () => {
             }
         }
     }
+};
+
+const refresh_board = () => {
+    for (let y in arrayCopy) {
+        for (let x in arrayCopy[y]) {
+            board_dom.children[y].children[x].className = 'cel';
+            arrayCopy[y][x].value = 0;
+        }
+    }
+    done = false;
 };
 
 createInitialBoard(yLength, xLength);

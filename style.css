@@ -46,9 +46,16 @@ header > div {
 }
 
 .cel {
-    height: 0.8rem;
-    width: 0.8rem;
+    height: 1.5rem;
+    width: 1.5rem;
     border: 1px solid rgb(214, 214, 214);
+}
+
+.green > .innerCel {
+    height: 1.5rem;
+    width: 1.5rem;
+    background: rgb(255, 0, 212);
+    animation: scale 4s;
 }
 
 .cel:hover {
@@ -56,7 +63,7 @@ header > div {
 }
 
 .green {
-    background: rgb(0, 255, 0);
+    background: purple;
 }
 
 .yellow {
@@ -80,4 +87,21 @@ header > div {
 
 header > div > div.active {
     background: blue;
+}
+
+@keyframes scale {
+    0% {
+        transform: scale(0.5);
+        background: rgb(51, 0, 47);
+    }
+    25% {
+        transform: scale(1.25);
+        background: purple;
+    }
+    50% {
+        transform: scale(1);
+    }
+    100% {
+        background: rgb(255, 0, 212);
+    }
 }
